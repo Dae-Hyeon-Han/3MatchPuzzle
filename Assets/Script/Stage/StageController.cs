@@ -9,6 +9,10 @@ namespace Puzzle.Stage
         bool init;
         Stage stage;
 
+        [SerializeField] Transform container;
+        [SerializeField] GameObject cellPrefab;
+        [SerializeField] GameObject blockPrefab;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -28,7 +32,11 @@ namespace Puzzle.Stage
 
         void BuildStage()
         {
+            // 스테이지 구성
             stage = StageBuilder.BuildStage(nStage : 0, row : 9, column : 9);
+
+            // 생성한 stage 정보를 이용하여 씬 구성
+            stage.ComposeStage(cellPrefab, blockPrefab, container);
         }
     }
 }

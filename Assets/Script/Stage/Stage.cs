@@ -29,6 +29,11 @@ namespace Puzzle.Stage
             m_Board = new Puzzle.Board.Board(nRow, nCol);
         }
 
+        internal void ComposeStage(GameObject cellPrefab, GameObject blockPrefab, Transform container)
+        {
+            m_Board.ComposeStage(cellPrefab, blockPrefab, container);
+        }
+
         public void PrintAll()
         {
             System.Text.StringBuilder strCells = new System.Text.StringBuilder();

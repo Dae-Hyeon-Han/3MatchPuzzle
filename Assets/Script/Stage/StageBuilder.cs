@@ -22,8 +22,11 @@ namespace Puzzle.Stage
             // 2. Cell.Block 초기값 생성
             for(int nRow = 0; nRow< row; nRow++)
             {
-                stage.blocks[nRow, column] = SpawnBlockForStage(nRow, column);
-                stage.cells[nRow, column] = SpawnCellForStage(nRow, column);
+                for (int nCol = 0; nCol < column; nCol++)
+                {
+                    stage.blocks[nRow, nCol] = SpawnBlockForStage(nRow, nCol);
+                    stage.cells[nRow, nCol] = SpawnCellForStage(nRow, nCol);
+                }
             }
 
             return stage;
@@ -31,12 +34,14 @@ namespace Puzzle.Stage
 
         Block SpawnBlockForStage(int row, int column)
         {
-            return new Block(BlockType.BASIC);
+            //return new Block(BlockType.BASIC);
+            return new Block(row == column ? BlockType.EMPTY : BlockType.BASIC);
         }
 
         Cell SpawnCellForStage(int row, int column)
         {
-            return new Cell(CellType.BASIC);
+            //return new Cell(CellType.BASIC);
+            return new Cell(row == column ? CellType.EMPTY : CellType.BASIC);
         }
 
         public static Stage BuildStage(int nStage, int row, int column)
