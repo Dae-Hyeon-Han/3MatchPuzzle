@@ -49,6 +49,9 @@ namespace Puzzle.Board
                 {
                     Cell cell = m_Cells[nRow, nCol]?.InstantiateCellObj(cellPrefab, container);
                     cell?.Move(initX + nCol, initY + nRow);
+
+                    Block block = m_Blocks[nRow, nCol]?.InstantiateBlockObj(blockPrefab, container);
+                    block?.Move(initX + nCol, initY + nRow);
                 }
             }
         }

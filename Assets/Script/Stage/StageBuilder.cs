@@ -35,7 +35,8 @@ namespace Puzzle.Stage
         Block SpawnBlockForStage(int row, int column)
         {
             //return new Block(BlockType.BASIC);
-            return new Block(row == column ? BlockType.EMPTY : BlockType.BASIC);
+            //return new Block(row == column ? BlockType.EMPTY : BlockType.BASIC);
+            return row == column ? SpawnEmptyBlock() : SpawnBlock();
         }
 
         Cell SpawnCellForStage(int row, int column)
@@ -50,6 +51,17 @@ namespace Puzzle.Stage
             Stage stage = stageBuilder.ComposeStage(row, column);
 
             return stage;
+        }
+
+        public Block SpawnBlock()
+        {
+            return BlockFactory.SpawnBlock(BlockType.BASIC);
+        }
+
+        public Block SpawnEmptyBlock()
+        {
+            Block newBlock = BlockFactory.SpawnBlock(BlockType.EMPTY);
+            return newBlock;
         }
     }
 }
