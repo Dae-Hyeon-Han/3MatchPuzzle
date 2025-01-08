@@ -33,7 +33,7 @@ namespace Puzzle.Stage
         void BuildStage()
         {
             // 스테이지 구성
-            stage = StageBuilder.BuildStage(nStage : 0, row : 9, column : 9);
+            stage = StageBuilder.BuildStage(nStage : 1);
 
             // 생성한 stage 정보를 이용하여 씬 구성
             stage.ComposeStage(cellPrefab, blockPrefab, container);
