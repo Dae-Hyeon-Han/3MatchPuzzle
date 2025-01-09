@@ -39,6 +39,9 @@ namespace Puzzle.Board
             m_BlockPrefab = blockPrefab;
             m_Container = container;
 
+            BoardShuffler shffler = new BoardShuffler(this, true);
+            shffler.Shuffle();
+
             // Cell, Block 프리펩을 이용해서 Board에 Cell / Block 오브젝트를 추가한다.
             float initX = CalcInitX(0.5f);
             float initY = CalcInitY(0.5f);
@@ -64,6 +67,23 @@ namespace Puzzle.Board
         public float CalcInitY(float offset = 0)
         {
             return -row / 2.0f + offset;
+        }
+
+        public bool CanShuffle(int row, int column, bool loading)
+        {
+            BlockBreed genBreed;
+
+            while(true)
+            {
+                genBreed = (BlockBreed)UnityEngine.Random.Range(0,6);
+
+                if (notAllowedBreed == genBreed)
+                    continue;
+
+                break;
+            }
+
+            block.breed = genBreed;
         }
     }
 }
