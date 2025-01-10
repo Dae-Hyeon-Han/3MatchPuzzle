@@ -71,11 +71,18 @@ namespace Puzzle.Board
 
         public bool CanShuffle(int row, int column, bool loading)
         {
+            if (cells[row, column].cellType.IsBlockMovableType())
+                return false;
+            return true;
+        }
+
+        public void ChangeBlock(Block block, BlockBreed notAllowedBreed)
+        {
             BlockBreed genBreed;
 
-            while(true)
+            while (true)
             {
-                genBreed = (BlockBreed)UnityEngine.Random.Range(0,6);
+                genBreed = (BlockBreed)UnityEngine.Random.Range(0, 6);
 
                 if (notAllowedBreed == genBreed)
                     continue;
@@ -84,6 +91,11 @@ namespace Puzzle.Board
             }
 
             block.breed = genBreed;
+        }
+
+        public bool IsSwipeable(int row, int column)
+        {
+            return cells[row, column].cellType.IsBlockMovableType();
         }
     }
 }

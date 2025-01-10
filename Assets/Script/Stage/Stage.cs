@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Puzzle.Board;
+using Puzzle.Controller;
 using System;
 
 namespace Puzzle.Stage
@@ -54,5 +55,29 @@ namespace Puzzle.Stage
             Debug.Log(strBlocks.ToString());
         }
 
+        public bool IsOnValideBlock(Vector2 point, out BlockPos blockPos)
+        {
+            // 로컬 좌표 -> 보드의 블록 인덱스로 변환
+            Vector2 pos = new Vector2(point.x + (maxColumn / 2.0f), point.y + (maxRow / 2.0f));
+            int row = (int)pos.y;
+            int column = (int)pos.x;
+
+            // 리턴할 블록 인덱스 생성
+            blockPos = new BlockPos(row, column);
+
+            // 스왑 가능한지 체크
+            return board.IsSwipeable(row, column);
+        }
+
+        public bool IsInsideBoard(Vector2 ptrOrg)
+        {
+            // 계산의 편의를 위해서 (0,0)을 기준으로 좌표를 이동
+            // 8*8 보드인 경우: x(-4,+4), y(-4,+4) -> x(0~8), y(0~8)
+            Vector2 point = new Vector2(ptrOrg.x + (maxColumn / 2.0f), ptrOrg.y + (maxRow / 2.0f));
+
+            if (point.y < 0 || point.x < 0 || point.y > maxRow || point.x > maxColumn)
+                return false;
+            return true;
+        }
     }
 }
