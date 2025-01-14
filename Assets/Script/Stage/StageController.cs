@@ -15,10 +15,12 @@ namespace Puzzle.Stage
         [SerializeField] GameObject blockPrefab;
 
         InputManager inputManager;
+        ActionManager actionManager;
 
         bool touchDown;             // 입력상태 처리 플래그. 유효한 블록을 클릭한 경우 true
         BlockPos blockDownPos;      // 블록 위치(보드에 저장된 위치)
         Vector3 clickPos;           // 다운 위치(보드 기준 local 좌표)
+
 
         // Start is called before the first frame update
         void Start()
@@ -41,7 +43,8 @@ namespace Puzzle.Stage
         void BuildStage()
         {
             // 스테이지 구성
-            stage = StageBuilder.BuildStage(nStage : 1);
+            stage = StageBuilder.BuildStage(nStage : 2);
+            actionManager = new ActionManager(container, stage);
 
             // 생성한 stage 정보를 이용하여 씬 구성
             stage.ComposeStage(cellPrefab, blockPrefab, container);
@@ -101,6 +104,10 @@ namespace Puzzle.Stage
                 // 스왑 방향을 구한다
                 Swipe swipeDir = inputManager.EvalSwipeDir(clickPos, point);
                 Debug.Log($"Swipe: {swipeDir}, Block = {blockDownPos}");
+
+                if (swipeDir != Swipe.NA)
+                    actionManager.DoSwipeAction(blockDownPos.row, blockDownPos.column, swipeDir);
+
                 touchDown = false;      // 클릭 상태 플래그 off
             }
         }

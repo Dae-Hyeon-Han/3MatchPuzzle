@@ -53,4 +53,27 @@ namespace Puzzle.Controller
             return aimAngle * Mathf.Rad2Deg;
         }
     }
+
+    public static class SwipeDirMethod
+    {
+        public static int GetTargetRow(this Swipe swipeDir)
+        {
+            switch(swipeDir)
+            {
+                case Swipe.DOWN: return -1; ;
+                case Swipe.UP: return 1;
+                default: return 0;
+            }
+        }
+
+        public static int GetTargetColumn(this Swipe swipeDir)
+        {
+            switch(swipeDir)
+            {
+                case Swipe.LEFT: return -1; ;
+                case Swipe.RIGHT: return 1;
+                default: return 0;
+            }
+        }
+    }
 }

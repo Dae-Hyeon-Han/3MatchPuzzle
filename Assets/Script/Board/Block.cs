@@ -100,5 +100,15 @@ namespace Puzzle.Board
         {
             return blockType != BlockType.EMPTY;
         }
+
+        public void MoveTo(Vector3 to, float duration)
+        {
+            blockBehaviour.StartCoroutine(Controller.Action2D.MoveTo(blockObj, to, duration));
+        }
+
+        public bool IsSwipeable(Block baseBlock)
+        {
+            return true;
+        }
     }
 }
