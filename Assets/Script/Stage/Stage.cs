@@ -26,7 +26,7 @@ namespace Puzzle.Stage
         // 주어진 크기를 갖는 보드 생성
         public Stage(StageBuilder stageBuilder, int nRow, int nCol)
         {
-            stageBuilder = stageBuilder;
+            this.stageBuilder = stageBuilder;
 
             m_Board = new Puzzle.Board.Board(nRow, nCol);
         }
@@ -134,6 +134,51 @@ namespace Puzzle.Stage
                 default:
                     return false;
             }
+        }
+
+        public IEnumerator Evaluate(Returnable<bool> matchResult)
+        {
+            yield return m_Board.Evaluate(matchResult);
+        }
+
+        public IEnumerator PostprocessAfterEvaluate()
+        {
+            List<KeyValuePair<int, int>> unfilledBlock = new List<KeyValuePair<int, int>>();
+            List<Block> movingBlocks = new List<Block>();
+
+            // 제거된 블록에 따라, 블록 재배치(상위 -> 하위 이동/애니메이션)
+            yield return m_Board.ArrangeBlocksAfterClean(unfilledBlock, movingBlocks);
+
+            // 유저에게 생성도니 블록이 잠시동안 보이도록 다른 블록이 드롭되는 동안 대기
+            yield return WaitForDropping(movingBlocks);
+        }
+
+        public IEnumerator WaitForDropping(List<Block> movingBlocks)
+        {
+            WaitForSeconds waitForSeconds = new WaitForSeconds(0.5f);
+
+            while(true)
+            {
+                bool bContinue = false;
+
+                // 이동 중인 블록이 있는지 검사
+                for(int i=0; i<movingBlocks.Count; i++)
+                {
+                    if(movingBlocks[i].isMoving)
+                    {
+                        bContinue = true;
+                        break;
+                    }
+                }
+
+                if (!bContinue)
+                    break;
+
+                yield return waitForSeconds;
+            }
+
+            movingBlocks.Clear();
+            yield break;
         }
     }
 }

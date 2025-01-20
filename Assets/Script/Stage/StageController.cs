@@ -43,7 +43,7 @@ namespace Puzzle.Stage
         void BuildStage()
         {
             // 스테이지 구성
-            stage = StageBuilder.BuildStage(nStage : 2);
+            stage = StageBuilder.BuildStage(nStage : 1);
             actionManager = new ActionManager(container, stage);
 
             // 생성한 stage 정보를 이용하여 씬 구성

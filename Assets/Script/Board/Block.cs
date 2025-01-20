@@ -11,6 +11,7 @@ namespace Puzzle.Board
         protected BlockBreed m_Breed;
         public Transform blockObj { get { return m_BlockBehaviour?.transform; } }
         Vector2Int m_vtDuplicate;           // 블록 중복 개수. Shuffle시 중복 검사에 사용
+        BlockActionBehaviour blockActionBehaviour;
 
         public BlockType blockType
         {
@@ -55,6 +56,16 @@ namespace Puzzle.Board
             set { m_vtDuplicate.y = value; }
         }
 
+        public bool isMoving
+        {
+            get { return blockObj != null && blockActionBehaviour.isMoving; }
+        }
+
+        public Vector2 dropDistance
+        {
+            set { blockActionBehaviour?.MoveDrop(value); }
+        }
+
         public void ResetDuplicationInfo()
         {
             m_vtDuplicate.x = 0;
@@ -87,6 +98,7 @@ namespace Puzzle.Board
 
             // 블록 오브젝트에 적용된 BlockBehaviour 컴포넌트를 보관
             this.blockBehaviour = newObj.transform.GetComponent<BlockBehaviour>();
+            blockActionBehaviour = newObj.transform.GetComponent<BlockActionBehaviour>();
 
             return this;
         }

@@ -8,5 +8,6 @@ namespace Puzzle.Core
     {
         public static float BLOCK_ORG = 0.5f;        // 블록의 출력 원점
         public static float SWIPE_DURATION = 0.2f;   // 블록 스왑 애니메이션 시간
+        public static float DROP_TIME = 0.3f;        // 블록이 떨어지는 시간
     }
 }

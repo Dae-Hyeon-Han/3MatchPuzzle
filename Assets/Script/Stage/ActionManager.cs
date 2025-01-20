@@ -54,5 +54,38 @@ namespace Puzzle.Stage
             }
             yield break;
         }
+
+        IEnumerator EvaluateBoard(Returnable<bool> matchResult)
+        {
+            bool bFirst = true;
+
+            while(true)
+            {
+                // 매치 블록 제거
+                Returnable<bool> blockMatched = new Returnable<bool>(false);
+                yield return StartCoroutine(stage.Evaluate(blockMatched));
+
+                // 3매치 블록이 있는 경우 후처리 실행
+                if (blockMatched.value)
+                {
+                    matchResult.value = true;
+
+                    // 매칭 블록 제거 후 빈 블록 드롭 후 새 블록 생성
+                    yield return StartCoroutine(stage.PostprocessAfterEvaluate());
+                }
+                else
+                    break;
+            }
+            yield break;
+
+            //// 매치 블록 제거
+            //yield return stage.Evaluate(matchResult);
+
+            //// 매칭 블록 제거 후 빈 블록 드롭 및 새 블록 생성을 처리하는 후처리 수행
+            //if(matchResult.value)
+            //{
+            //    yield return stage.PostprocessAfterEvaluate();
+            //}
+        }
     }
 }
